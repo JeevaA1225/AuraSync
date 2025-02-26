@@ -2,16 +2,11 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, UserPlus, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { usePatientContext } from '../context/PatientContext';
 
 const PatientList = () => {
   const [searchTerm, setSearchTerm] = useState('');
-
-  // Mock patient data
-  const patients = [
-    { id: 1, name: 'John Doe', age: 45, lastVisit: '2024-03-10' },
-    { id: 2, name: 'Jane Smith', age: 32, lastVisit: '2024-03-09' },
-    { id: 3, name: 'Robert Johnson', age: 58, lastVisit: '2024-03-08' },
-  ];
+  const { patients } = usePatientContext();
 
   const filteredPatients = patients.filter(patient =>
     patient.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -33,8 +28,10 @@ const PatientList = () => {
             whileTap={{ scale: 0.95 }}
             className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
           >
-            <UserPlus className="w-5 h-5 mr-2" />
-            Add Patient
+            <Link to="/add-patient" className="flex items-center">
+              <UserPlus className="w-5 h-5 mr-2" />
+              Add Patient
+            </Link>
           </motion.button>
         </div>
 
