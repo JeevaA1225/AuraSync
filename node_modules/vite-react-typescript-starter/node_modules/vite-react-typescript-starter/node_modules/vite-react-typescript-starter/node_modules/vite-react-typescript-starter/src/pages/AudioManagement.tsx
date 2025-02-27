@@ -933,10 +933,73 @@ const AudioManagement: React.FC<AudioManagementProps> = () => {
           <button onClick={handleGenerateEHRClick} disabled={isGeneratingEHR}>
             {isGeneratingEHR ? "Generating EHR..." : "Generate EHR"}
           </button>
-          {generatedEHR && (
+          {/* {generatedEHR && (
             <div>
               <h3>Generated EHR:</h3>
               <pre>{generatedEHR}</pre>
+            </div>
+          )} */}
+          {generatedEHR && (
+            <div>
+              <h3>Generated EHR:</h3>
+              <div>
+                {Object.entries(JSON.parse(generatedEHR)).map(
+                  ([key, value]) => (
+                    <div key={key} style={{ marginBottom: "10px" }}>
+                      <strong style={{ fontSize: "18px", display: "block" }}>
+                        {key
+                          .replace(/_/g, " ")
+                          .replace(/\b\w/g, (char) => char.toUpperCase())}
+                        :
+                      </strong>
+                      {typeof value === "object" ? (
+                        value instanceof Array ? (
+                          <ul style={{ paddingLeft: "20px", margin: 0 }}>
+                            {value.map((item, index) => (
+                              <li key={index} style={{ fontSize: "14px" }}>
+                                {Object.entries(item).map(
+                                  ([subKey, subValue]) => (
+                                    <div key={subKey}>
+                                      <strong style={{ fontSize: "16px" }}>
+                                        {subKey
+                                          .replace(/_/g, " ")
+                                          .replace(/\b\w/g, (char) =>
+                                            char.toUpperCase()
+                                          )}
+                                        :
+                                      </strong>{" "}
+                                      {subValue}
+                                    </div>
+                                  )
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          Object.entries(value).map(([subKey, subValue]) => (
+                            <div
+                              key={subKey}
+                              style={{ fontSize: "14px", marginLeft: "20px" }}
+                            >
+                              <strong style={{ fontSize: "16px" }}>
+                                {subKey
+                                  .replace(/_/g, " ")
+                                  .replace(/\b\w/g, (char) =>
+                                    char.toUpperCase()
+                                  )}
+                                :
+                              </strong>{" "}
+                              {subValue}
+                            </div>
+                          ))
+                        )
+                      ) : (
+                        <p style={{ fontSize: "14px", margin: 0 }}>{value}</p>
+                      )}
+                    </div>
+                  )
+                )}
+              </div>
             </div>
           )}
         </div>
